@@ -13,7 +13,7 @@ export default function LandingPage() {
     const [showOffcanvas, setShowOffcanvas] = useState(false);
     const categories = ['electronics', 'jewelery', "men's clothing", "women's clothing"];
     useEffect(() => {
-          axios.get('https://fakestoreapi.com/products')
+          axios.get('https://ecom-landing-backend.onrender.com/products')
           .then(response => {
             setProducts(response.data);
           })

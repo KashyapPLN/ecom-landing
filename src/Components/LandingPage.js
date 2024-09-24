@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Row, Col, Card, Button, Form, Modal, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Modal, Navbar, Nav, Offcanvas, OverlayTrigger, Tooltip, Form } from 'react-bootstrap';
+import { AiOutlineMenu } from 'react-icons/ai';
 import './landingpage.css';
 
 export default function LandingPage() {
@@ -9,6 +10,8 @@ export default function LandingPage() {
     const [category, setCategory] = useState('all');
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [showOffcanvas, setShowOffcanvas] = useState(false);
+    const categories = ['electronics', 'jewelery', "men's clothing", "women's clothing"];
     useEffect(() => {
           axios.get('https://fakestoreapi.com/products')
           .then(response => {
@@ -31,10 +34,47 @@ export default function LandingPage() {
     
   return (
     <Container className="my-4">
-      <h1 className="text-center">ECommerce Store</h1>
+      <h4 className="text-center">ECommerce Store</h4>  
 
-      {/* Search Bar */}
-      <Row>
+      {/* Category Filter */}
+     <Navbar bg="dark" data-bs-theme="dark" className="mb-3">
+        <Container>
+          <Button className='all-items-btn' variant="text" onClick={() => setShowOffcanvas(true)}>
+            <AiOutlineMenu /> All Items
+          </Button>
+          <Nav className="ml-auto">
+            <Nav.Item>
+              <Nav.Link onClick={() => setCategory('all')} active={category === 'all'}>All</Nav.Link>
+            </Nav.Item>
+            {categories.map((cat, idx) => (
+              <Nav.Item key={idx}>
+                <Nav.Link onClick={() => setCategory(cat)} active={category === cat}>
+                  {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                </Nav.Link>
+              </Nav.Item>
+            ))}
+          </Nav>
+        </Container>
+      </Navbar>
+          {/* Offcanvas for categories */}
+          <Offcanvas show={showOffcanvas} onHide={() => setShowOffcanvas(false)} placement="start">
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Categories</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <Nav className="flex-column">
+            <Nav.Link onClick={() => { setCategory('all'); setShowOffcanvas(false); }}>All Items</Nav.Link>
+            {categories.map((cat, idx) => (
+              <Nav.Link key={idx} onClick={() => { setCategory(cat); setShowOffcanvas(false); }}>
+                {cat.charAt(0).toUpperCase() + cat.slice(1)}
+              </Nav.Link>
+            ))}
+          </Nav>
+        </Offcanvas.Body>
+      </Offcanvas>
+
+       {/* Search Bar */}
+       <Row>
         <Col md={4} sm={12}>
         <Form.Control
         type="text"
@@ -44,24 +84,6 @@ export default function LandingPage() {
         className="mb-3"
       />
         </Col>
-      </Row>
-    
-
-      {/* Category Filter */}
-      <Row>
-      <Col md={3} sm={12}>
-      <Form.Select
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-        className="mb-3"
-      >
-        <option value="all">All Categories</option>
-        <option value="electronics">Electronics</option>
-        <option value="jewelery">Jewelery</option>
-        <option value="men's clothing">Men's Clothing</option>
-        <option value="women's clothing">Women's Clothing</option>
-      </Form.Select>
-      </Col>
       </Row>
 
       {/* Product Grid */}
@@ -75,10 +97,10 @@ export default function LandingPage() {
                   placement="top"
                   overlay={<Tooltip>{product.title}</Tooltip>}
                 >
-                  <Card.Title className="product-title">{product.title}</Card.Title>
+                  <p className="product-title">{product.title}</p>
                 </OverlayTrigger>
                 <Card.Text>${product.price.toFixed(2)}</Card.Text>
-                <Button variant="primary" onClick={() => handleProductClick(product)}>View Details</Button>
+                <Button variant="outline-secondary" onClick={() => handleProductClick(product)}>View Details</Button>
               </Card.Body>
             </Card>
           </Col>
@@ -86,20 +108,22 @@ export default function LandingPage() {
       </Row>
 
       {/* Product Modal */}
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal size='lg' show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>{selectedProduct?.title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <img src={selectedProduct?.image} alt={selectedProduct?.title} className="img-fluid mb-3" />
+            <div style={{display:'flex',justifyContent:'center'}}>
+          <img src={selectedProduct?.image} alt={selectedProduct?.title} style={{height:'50vh'}} className="img-fluid mb-3" />
+          </div>
           <p><strong>Description:</strong> {selectedProduct?.description}</p>
           <p><strong>Price:</strong> ${selectedProduct?.price.toFixed(2)}</p>
           <p><strong>Available Quantity:</strong> {selectedProduct?.rating?.count}</p>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>Close</Button>
-        </Modal.Footer>
       </Modal>
+      {filteredProducts.length=== 0&& <div>
+        <p className='mt-4' style={{textAlign:'center'}}>No products found</p>
+        </div>}
     </Container>
   )
 }

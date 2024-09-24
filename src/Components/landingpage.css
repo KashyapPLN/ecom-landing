@@ -8,6 +8,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-weight: 500;
   }
 
   .card-body {
@@ -15,5 +16,35 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+  }
+
+  .all-items-btn:hover{
+    color:white;
+  }
+  .all-items-btn:focus{
+    color:white
+  }
+
+  /* Responsive font size for nav items */
+.navbar .nav-link,.all-items-btn {
+    font-size: 1.2rem; /* Default font size for medium to large screens */
+  }
+  
+  @media (max-width: 992px) {
+    .navbar .nav-link,.all-items-btn {
+      font-size: 1rem; /* Slightly smaller font for tablets */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .navbar .nav-link,.all-items-btn {
+      font-size: 0.9rem; /* Smaller font size for mobile devices */
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .navbar .nav-link,.all-items-btn {
+      font-size: 0.4rem; /* Smallest font size for very small screens */
+    }
   }
   

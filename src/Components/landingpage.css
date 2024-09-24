@@ -30,27 +30,25 @@
   .all-items-btn:focus{
     color:white
   }
-
-  /* Responsive font size for nav items */
 .navbar .nav-link,.all-items-btn {
-    font-size: 1.2rem; /* Default font size for medium to large screens */
+    font-size: 1.2rem;
   }
   
   @media (max-width: 992px) {
     .navbar .nav-link,.all-items-btn {
-      font-size: 1rem; /* Slightly smaller font for tablets */
+      font-size: 1rem;
     }
   }
   
   @media (max-width: 768px) {
     .navbar .nav-link,.all-items-btn {
-      font-size: 0.9rem; /* Smaller font size for mobile devices */
+      font-size: 0.9rem;
     }
   }
   
   @media (max-width: 576px) {
     .navbar .nav-link,.all-items-btn {
-      font-size: 0.4rem; /* Smallest font size for very small screens */
+      font-size: 0.4rem;
     }
   }
   

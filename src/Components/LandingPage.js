@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Row, Col, Card, Button, Modal, Navbar, Nav, Offcanvas, OverlayTrigger, Tooltip, Form } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Modal, Navbar, Nav, Offcanvas, OverlayTrigger, Tooltip, Form, Spinner } from 'react-bootstrap';
 import { AiOutlineMenu } from 'react-icons/ai';
 import './landingpage.css';
 import { ImCart } from 'react-icons/im';
@@ -13,10 +13,13 @@ export default function LandingPage() {
     const [showModal, setShowModal] = useState(false);
     const [showOffcanvas, setShowOffcanvas] = useState(false);
     const categories = ['electronics', 'jewellery', "men's clothing", "women's clothing"];
+    const [loading,setLoading]=useState(false);
     useEffect(() => {
+        setLoading(true);
           axios.get('https://ecom-landing-backend.onrender.com/products')
           .then(response => {
             setProducts(response.data);
+            setLoading(false);
           })
           .catch(error => {
             console.error('Error fetching the products:', error);
@@ -130,7 +133,12 @@ export default function LandingPage() {
         </Modal.Body>
       </Modal>
       {filteredProducts.length=== 0&& <div>
-        <p className='mt-4' style={{textAlign:'center'}}>No products found</p>
+        {loading===false? <p className='mt-4' style={{textAlign:'center'}}>No products found</p>:
+        <div className='text-center'>
+            <Spinner animation="border" role="status"/>
+            <span className='ms-2'>Loading...</span>
+            </div>
+        }
         </div>}
     </Container>
     </div>

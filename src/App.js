@@ -3,7 +3,7 @@ import './App.css';
 import LandingPage from './Components/LandingPage';
 const App = () => {
   return (
-    <div>
+    <div className='App'>
 <LandingPage/>
     </div>
   );

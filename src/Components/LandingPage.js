@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Container, Row, Col, Card, Button, Modal, Navbar, Nav, Offcanvas, OverlayTrigger, Tooltip, Form } from 'react-bootstrap';
 import { AiOutlineMenu } from 'react-icons/ai';
 import './landingpage.css';
+import { ImCart } from 'react-icons/im';
 
 export default function LandingPage() {
     const [products, setProducts] = useState([]);
@@ -11,7 +12,7 @@ export default function LandingPage() {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [showOffcanvas, setShowOffcanvas] = useState(false);
-    const categories = ['electronics', 'jewelery', "men's clothing", "women's clothing"];
+    const categories = ['electronics', 'jewellery', "men's clothing", "women's clothing"];
     useEffect(() => {
           axios.get('https://ecom-landing-backend.onrender.com/products')
           .then(response => {
@@ -33,16 +34,16 @@ export default function LandingPage() {
       };
     
   return (
-    <Container className="my-4">
-      <h4 className="text-center">ECommerce Store</h4>  
-
-      {/* Category Filter */}
+    <div>
+             <h4 className="text-center my-4"><ImCart className='me-3'/>ECommerce Store</h4>  
+                 {/* Category Filter */}
      <Navbar bg="dark" data-bs-theme="dark" className="mb-3">
-        <Container>
+        <div className='nav-bar-div'>
           <Button className='all-items-btn' variant="text" onClick={() => setShowOffcanvas(true)}>
-            <AiOutlineMenu /> All Items
+            <AiOutlineMenu /> Categories
           </Button>
-          <Nav className="ml-auto">
+          <div className="ml-auto">
+          <Nav >
             <Nav.Item>
               <Nav.Link onClick={() => setCategory('all')} active={category === 'all'}>All</Nav.Link>
             </Nav.Item>
@@ -54,7 +55,9 @@ export default function LandingPage() {
               </Nav.Item>
             ))}
           </Nav>
-        </Container>
+          </div>
+          
+        </div>
       </Navbar>
           {/* Offcanvas for categories */}
           <Offcanvas show={showOffcanvas} onHide={() => setShowOffcanvas(false)} placement="start">
@@ -72,6 +75,10 @@ export default function LandingPage() {
           </Nav>
         </Offcanvas.Body>
       </Offcanvas>
+    <Container className="my-4">
+ 
+
+  
 
        {/* Search Bar */}
        <Row>
@@ -87,6 +94,7 @@ export default function LandingPage() {
       </Row>
 
       {/* Product Grid */}
+      <div className='product-grid'>
       <Row>
         {filteredProducts.map(product => (
           <Col key={product.id} xs={12} sm={6} md={4} lg={3} className="mb-4">
@@ -106,7 +114,7 @@ export default function LandingPage() {
           </Col>
         ))}
       </Row>
-
+      </div>
       {/* Product Modal */}
       <Modal size='lg' show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
@@ -125,5 +133,6 @@ export default function LandingPage() {
         <p className='mt-4' style={{textAlign:'center'}}>No products found</p>
         </div>}
     </Container>
+    </div>
   )
 }

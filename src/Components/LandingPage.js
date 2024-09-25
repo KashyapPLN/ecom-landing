@@ -38,12 +38,14 @@ export default function LandingPage() {
 
     return (
         <div>
-            <h4 className="text-center my-4"><ImCart className='me-3' />ECommerce Store</h4>
+            <div className='logo'>
+                <h4><ImCart className='me-3' /></h4><h4 className="text-center my-4">ECommerce Store</h4>
+            </div>
             {/* Category Filter */}
             <Navbar bg="dark" data-bs-theme="dark" className="mb-3">
-                <div className='nav-bar-div'>
+                <div className='nav-bar-div ms-2 me-2'>
                     <Button className='all-items-btn' variant="text" onClick={() => setShowOffcanvas(true)}>
-                        <AiOutlineMenu /> Categories
+                        <AiOutlineMenu className='me-2' /> <span>Categories</span>
                     </Button>
                     <div className="ml-auto">
                         <Nav >
